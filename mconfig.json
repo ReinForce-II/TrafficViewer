@@ -1,0 +1,6 @@
+﻿{
+  "interface": "enp1s0f0",
+  "granularity": 1,
+  "start": 1,
+  "http_port": 1337
+}
