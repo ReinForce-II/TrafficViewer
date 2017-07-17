@@ -61,5 +61,8 @@ typings/
 # dotenv environment variables file
 .env
 
+# VS
+.vs
+
 TrafficViewer.njsproj
 # End of https://www.gitignore.io/api/node

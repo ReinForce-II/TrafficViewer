@@ -3,20 +3,25 @@
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 <script>
-    let trafficdata = new Array();
+    let trafficdataout = new Array();
+    let trafficdatain = new Array();
     fetch('query').then(
         (response) => {
             return response.json();
         }
     ).then(
         (data) => {
-            let trafficall = 0;
-            for (let i in data) {
-                trafficall += parseInt(data[i][1]);
-                trafficdata.push([Math.floor(data[i][0] / 1000)* 1000, trafficall]);
+            let trafficallout = 0;
+            for (let i in data.out) {
+                trafficallout += parseInt(data.out[i][1]);
+                trafficdataout.push([Math.floor(data.out[i][0] / 1000) * 1000, trafficallout]);
             }
-        }
-        ).then(
+            let trafficallin = 0;
+            for (let i in data.in) {
+                trafficallin += parseInt(data.in[i][1]);
+                trafficdatain.push([Math.floor(data.in[i][0] / 1000) * 1000, trafficallin]);
+            }
+        }).then(
         () => {
             Highcharts.setOptions({
                 global: {
@@ -28,7 +33,7 @@
                     zoomType: 'x'
                 },
                 title: {
-                    text: 'Title'
+                    text: ''
                 },
                 subtitle: {
                     text: document.ontouchstart === undefined ?
@@ -48,36 +53,12 @@
                 legend: {
                     enabled: false
                 },
-                plotOptions: {
-                    area: {
-                        fillColor: {
-                            linearGradient: {
-                                x1: 0,
-                                y1: 0,
-                                x2: 0,
-                                y2: 1
-                            },
-                            stops: [
-                                [0, Highcharts.getOptions().colors[0]],
-                                [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                            ]
-                        },
-                        marker: {
-                            radius: 2
-                        },
-                        lineWidth: 1,
-                        states: {
-                            hover: {
-                                lineWidth: 1
-                            }
-                        },
-                        threshold: 0
-                    }
-                },
                 series: [{
-                    type: 'area',
-                    name: 'Traffic',
-                    data: trafficdata
+                    name: 'OUT',
+                    data: trafficdataout
+                }, {
+                    name: 'IN',
+                    data: trafficdatain
                 }]
             });
         }
